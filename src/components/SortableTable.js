@@ -1,24 +1,15 @@
-import { useState } from "react";
+
+import useSort from "../hooks/use-sort";
 import Table from "./Table";
 import { GoChevronUp,GoChevronDown } from "react-icons/go";
 function SortableTable(props) {
-
-  const [sortBy, setSortBy] = useState(null);
-  const [sortOrder, setSortOrder] = useState(null);
-  
-  const {config,data} = props;
-
-  const handleClick = (label) =>{
-
-    if(sortBy && label !== sortBy){
-      setSortBy(label);
-      setSortOrder('asc');
-      return;
-    }
-
-    setSortOrder( sortOrder === null ? 'asc' : sortOrder === 'asc' ? 'desc' : sortOrder === 'desc' ? null : null);
-    setSortBy( sortOrder === 'desc' ? null : label);
-  };
+ const {config, data} = props;
+  const {
+    sortBy,
+    sortOrder,
+    setSortLabel,
+    sortedData
+  } = useSort(config, data);
 
   const sortingConfig = config.map((column)=>{
     if(!column.sortValue){
@@ -29,7 +20,7 @@ function SortableTable(props) {
       header:()=>(
       <th
       className="cursor-pointer hover:bg-gray-100"
-       onClick={()=>{handleClick(column.label)}}
+       onClick={()=>{setSortLabel(column.label)}}
        >
         <div className="flex items-center">
         {getIcons(column.label, sortBy, sortOrder)}
@@ -39,28 +30,6 @@ function SortableTable(props) {
     }
   });
 
-  let sortedData = data;
-
-  let sortingStatus = null;
-
-  if(sortBy && sortOrder){
-    const {sortValue} = config.find(column => column.label === sortBy);
-    sortedData = [...data].sort((a,b)=>{
-      const A = sortValue(a);
-      const B = sortValue(b);
-
-      const order = sortOrder === 'asc' ? 1 : -1;
-
-      if(typeof(A) === "string"){
-        return A.localeCompare(B) * order;
-      }
-      else {return(A-B) * order;}
-    });
-
-    sortingStatus = <p>
-      Data sorted by {sortBy} - {sortOrder}
-    </p>
-  }
 
 
   return (
