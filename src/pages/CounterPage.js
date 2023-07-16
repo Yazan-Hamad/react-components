@@ -4,6 +4,7 @@ import Panel from '../components/Panel';
 
 function CounterPage({ initialCount }) {
   const [count, setCount] = useState(initialCount);
+  const [addedValue, setAddedValue] = useState(0);
 
   const increment = () => {
     setCount(count + 1);
@@ -11,6 +12,15 @@ function CounterPage({ initialCount }) {
   const decrement = () => {
     setCount(count - 1);
   };
+
+  const onChangeHandler = (event) =>{
+    setAddedValue( parseInt(event.target.value) || 0 );
+  }
+  const onSubmitHandler = (event) =>{
+    event.preventDefault();
+    setCount( count + addedValue);
+    setAddedValue(0);
+  }
 
   return (
     <Panel className="m-3">
@@ -20,9 +30,11 @@ function CounterPage({ initialCount }) {
         <Button onClick={decrement}>Decrement</Button>
       </div>
 
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <label>Add a lot!</label>
         <input
+        value={addedValue || ""}
+        onChange={onChangeHandler}
           type="number"
           className="p-1 m-3 bg-gray-50 border border-gray-300"
         />
