@@ -15,17 +15,17 @@ function ButtonPage(){
         </Button>
       </div>
       <div>
-        <Button success>
+        <Button success outline>
         Button
         </Button>
       </div>
       <div>
-        <Button warning>
+        <Button warning rounded>
         Button
         </Button>
       </div>
       <div>
-        <Button danger>
+        <Button danger rounded outline>
         Button
         </Button>
       </div>
