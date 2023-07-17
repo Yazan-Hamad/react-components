@@ -1,3 +1,4 @@
+import Panel from "../components/Panel";
 import SortableTable from "../components/SortableTable";
 
 function TablePage() {
@@ -21,9 +22,9 @@ function TablePage() {
   }
 
   return (
-    <div>
+    <Panel className="w-fit">
       <SortableTable config={config} data={data} keyFn={keyFn} />
-    </div>
+    </Panel>
   );
 }
 
